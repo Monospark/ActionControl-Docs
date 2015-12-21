@@ -2,7 +2,7 @@
    :target: https://travis-ci.org/Monospark/ActionControl-Docs
    :alt: Build Status
 
-ObjectDiff Documentation
+ActionControl Documentation
 =======================
 
 This repository contains the documentation of the `ActionControl <http://www.monospark.org/projects/sponge/actioncontrol>`_ Sponge plugin.
