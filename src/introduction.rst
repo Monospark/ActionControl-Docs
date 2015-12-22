@@ -33,3 +33,18 @@ First of all, you need a working SpongeForge or SpongeVanilla server.
 On top of that, you also need a working permissions plugin like `PermissionsEx <https://forums.spongepowered.org/t/permissionsex-v2-0/6198>`__.
 
 After you downloaded ActionControl, move the jar file into the mods folder.
+
+Getting Support
+===============
+
+If something is not working correctly, which is very likely since this plugin is in an very early stage, you can always ask for help or report a bug at the following locations:
+
+* The topic of this plugin in the Sponge Forums
+* The ActionControl category in the Monospark Forums
+* `The ActionControl issue tracker on GitHub <https://github.com/Monospark/ActionControl/issues>`__
+
+Contributing
+============
+
+To contribute to this plugin or this documentation, you can open pull requests on GitHub <https://github.com/Monospark/ActionControl/pulls>`__.
+Since there is no real developer documentation yet, it is better to wait until there is one.
