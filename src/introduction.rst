@@ -23,7 +23,7 @@ To get an overview over everything that is planned, you can visit the :doc:`Plan
 Downloads
 =========
 
-Since there is no official plugin repository yet, you can download the latest builds of ActionControl from the `continuous integration server <https://ci.monospark.org/jobs/ActionControl>`__.
+Since there is no official plugin repository yet, you can download the latest builds of ActionControl from the `continuous integration server <https://ci.monospark.org/job/ActionControl>`__.
 
 Getting Started
 ===============
