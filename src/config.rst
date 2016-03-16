@@ -2,9 +2,17 @@
 Configuration
 =============
 
-The config file of ActionControl allows you to .
-It can be found at ``config/actioncontrol/config.json``.
-If the config file is not present, an example config will be generated.
+As opposed to other plugins, ActionControl can have multiple config files.
+Every file in the *config/actioncontrol* directory is interpreted as a config.
+Config names can be used to indicate the goal of the config, for example *disable-lighers.json*.
+If no config is present on startup, an example config will be generated.
+
+SpongeMatchers
+==============
+
+The ActionControl configuration files make heavy use of `SpongeMatchers <https://github.com/monospark/spongematchers>`_.
+SpongeMatchers is a library for Sponge plugins that allows you to create powerful matchers for all kinds of objects like blocks, item stacks, players and more.
+For more information about SpongeMatchers and matcher creation, visit the `SpongeMatchers documentation <https://docs.monospark.org/spongematchers/>`_.
 
 Structure
 =========
@@ -12,194 +20,318 @@ Structure
 The general structure of the config can be seen here::
 
     {
-        "categories": {
-            "<category1>": {
-                "<actionRule1>": {
+        "playerFilter": "<player matcher>",
+        "actionRules": {
+            "<rule name>": {
+                "filter": {
                     ...
                 },
-                "<actionRule2>": {
-                    ...
-                },
-                "<actionRule3>": {
+                "response": {
                     ...
                 }
             },
-            "<category2>": {
-                "<actionRule4>": {
+            "<rule name>": {
+                "filter": {
                     ...
                 },
-                "<actionRule5>": {
+                "response": {
                     ...
                 }
-            }
+            },
+            ...
         }
     }
   
-A category is a collection of action rules.
-An action rule specifies how to react on an action performed by a player.
-For example, the action rule ``placeBlock`` can deny certain players to place certain blocks.
-The categories that contain action rules can then be assigned to specific players or groups using a Permissions plugin by using the permission ``actioncontrol.category.<categoryName>``.
+Player filters are used to specify which players are affected by the following action rules and accept a `player matcher <https://docs.monospark.org/spongematchers/types.html#players>`_.
+Action rules specify how to react on an action performed by a player.
+For example, the action rule *placeBlock* can be used to deny the players matched by the player filter to place certain blocks.
 
 Action Rules
 ============
 
 As mentioned previously, action rules specify how to react on an action.
-Action rules can be divided into two types, **simple action rules** and **complex action rules**.
-Currently, only simple action rules exist, because ActionControl is still in an early development stage.
-
-Simple Action Rules
--------------------
-
-Simple action rules have the following structure::
-
-    "<actionRuleName>": {
-        "response": "allow|deny",
-        "filter": [{
-            ...
-        },
-        {
-            ...
-        }]
-    }
-
-The ``response`` property defines how to react when the action matches the ``filter`` property.
-The ``filter`` property is different for every action rule, since actions are different.
-A good example for this are the ``breakBlock`` and ``placeBlock`` action rules::
-
-    "breakBlock": {
-        "response": "allow|deny",
-        "filter": [{
-            "blockIds": [<blockId1>, <blockId2>, ...],
-            "toolIds": [<itemId1>, <itemId2>, ...]
-        },
-        {
-            "blockIds": [<blockId3>, <blockId4>, ...],
-            "toolIds": [<itemId3>, <itemId4>, ...]
-        }]
-    },
-    "placeBlock": {
-        "response": "allow|deny",
-        "filter": {
-            "blockIds": [<blockId1>, <blockId2>, ...],
-        }
-    }
-    
-As you can see, the filters differ since the actions differ as well.
-Action rules can also have multiple filters, which you can see at the ``breakBlock`` filter property above.
+They consist out of a *filter* and a *response* element.
+The *filter* element lets you specify on which actions you want to react on. Since every type of action differs, the filters for them also differ.
+The *response* element lets you specify what to do if the action has passed the filter.
 
 List of Action Rules
 --------------------
 
-Minecraft IDs
-=============
+The following blocks show all currently implemented action rules and their filters
 
-As seen previously, you have to specify some kind of IDs for every action rule.
-These IDs can be block or item IDs, but also entity IDs and even enchantment IDs.
+Block destruction
+^^^^^^^^^^^^^^^^^
 
-Blocks and Items
+::
+
+    "breakBlock": {
+        "filter": [{
+            "block": "<block matcher>",
+            "tool": "<item stack matcher>"
+        },
+        {
+            "block": "<block matcher>",
+            "tool": "<item stack matcher>"
+        }],
+        "response": ...
+    }
+
+Used: `block matchers <https://docs.monospark.org/spongematchers/types.html#blocks>`_, `item stack matchers <https://docs.monospark.org/spongematchers/types.html#item-stacks>`_.
+    
+Block placement
+^^^^^^^^^^^^^^^
+    
+::
+
+    "placeBlock": {
+        "filter": {
+            "block": "<block matcher>",
+        },
+        "response": ...
+    }
+    
+Used: `block matchers <https://docs.monospark.org/spongematchers/types.html#blocks>`_.
+
+Block damaging
+^^^^^^^^^^^^^^
+
+::
+
+    "leftClickBlock": {
+        "filter": [{
+            "block": "<block matcher>",
+            "item": "<item stack matcher>"
+        },
+        {
+            "block": "<block matcher>",
+            "item": "<item stack matcher>"
+        }],
+        "response": ...
+    }
+
+Used: `block matchers <https://docs.monospark.org/spongematchers/types.html#blocks>`_, `item stack matchers <https://docs.monospark.org/spongematchers/types.html#item-stacks>`_.
+    
+Block interaction
+^^^^^^^^^^^^^^^^^
+    
+::
+
+    "rightClickBlock": {
+        "filter": [{
+            "block": "<block matcher>",
+            "item": "<item stack matcher>"
+        },
+        {
+            "block": "<block matcher>",
+            "item": "<item stack matcher>"
+        }],
+        "response": ...
+    }
+
+Used: `block matchers <https://docs.monospark.org/spongematchers/types.html#blocks>`_, `item stack matchers <https://docs.monospark.org/spongematchers/types.html#item-stacks>`_.
+   
+Item usage
+^^^^^^^^^^
+    
+::
+
+    "useItem": {
+        "filter": {
+            "item": "<item stack matcher>"
+        },
+        "response": ...
+    }
+
+Used: `item stack matchers <https://docs.monospark.org/spongematchers/types.html#item-stacks>`_.
+    
+Entity damaging
+^^^^^^^^^^^^^^^
+    
+::
+
+    "leftClickEntity": {
+        "filter": [{
+            "entity": "<entity matcher>",
+            "item": "<item stack matcher>"
+        },
+        {
+            "entity": "<entity matcher>",
+            "item": "<item stack matcher>"
+        }],
+        "response": ...
+    }
+    
+Used: `entity matchers <https://docs.monospark.org/spongematchers/types.html#entities>`_, `item stack matchers <https://docs.monospark.org/spongematchers/types.html#item-stacks>`_.
+
+Entity interaction
+^^^^^^^^^^^^^^^^^^
+    
+::
+
+    "rightClickEntity": {
+        "filter": [{
+            "entity": "<entity matcher>",
+            "item": "<item stack matcher>"
+        },
+        {
+            "entity": "<entity matcher>",
+            "item": "<item stack matcher>"
+        }],
+        "response": ...
+    }
+    
+Used: `entity matchers <https://docs.monospark.org/spongematchers/types.html#entities>`_, `item stack matchers <https://docs.monospark.org/spongematchers/types.html#item-stacks>`_.
+
+Action Responses
 ----------------
 
-To specify a block or item, you need the ID of it.
-These can be found at the `Minecraft ID list <http://minecraft-ids.grahamedgecombe.com/>`__.
-For example, the ID of dirt is ``minecraft:dirt``.
-When specifying a vanilla block, you can also omit the ``minecraft`` prefix, so the ID ``dirt`` is valid as well.
+With action responses you can control what happens after the action is applied to the filter.
+There are two elements, *match* and *noMatch*, which are executed when the action matches the filter or doesn't match the filter.
+The structure of a response element looks like this::
 
-However, there are some blocks and items that have variants like ``minecraft:planks`` or ``minecraft:coal``.
-This means that if you write ``minecraft:planks`` you implicitly include ``minecraft:planks:1`` (spruce planks), ``minecraft:planks:2`` (birch planks), etc.
-You can avoid this by adding a data value to the ID, for example ``minecraft:coal:0`` for coal and ``minecraft:coal:1`` for charcoal.
+    "<rule name>": {
+        "filter": ... ,
+        "response": {
+            "match": ... ,
+            "noMatch": ...
+        }
+    }
+    
+The *match* element or *noMatch* element can be omitted if you don't want to respond to the action.
+There are currently three response types available:
 
-Furthermore, you can also use data values ranges like ``minecraft:planks:1-3`` to include planks with the data values 1,2 and 3.
+``deny``
+  Cancels the action.
+  
+``command(<cmd>)``
+  Executes the command *<cmd>* as the console.
+  
+``log(<message>)``
+  Prints *<message>* in the console.
 
-Entities
---------
+Example configuration
+=====================
 
-To specify an entity, you need the ID of the entity.
-These can be found at the `Minecraft entity ID list <http://minecraft-ids.grahamedgecombe.com/entities>`__.
-Since there are no additional data values for entities, specifying entities is pretty straightforward compared to blocks and items.
-
-Enchantments
-------------
-
-Already implemented, but currently not used.
-
-
-
-Putting It All Together
-=======================
-
-Here is an example that uses all of the previously covered features to realize a small RPG system in which a player can accept one of four possible jobs:
+Here is an example that uses all of the previously covered features to realize a small RPG system in which a player can have one out of four possible jobs:
 
 * The farmer who can plant or harvest crops
 * The miner who can use a pickaxe
 * The hunter who can attack entities using a sword and a bow
 * The woodcutter who can use an axe
 
-Furthermore, there should be some things that nobody should be able to do like destroying cacti, because why not.
+Furthermore, nobody should be able to activate a nether portal in the overworld.
 Using ActionControl, it's possible to realize this jobs system pretty easily.
-Here is how to do it::
+It's always recommended to create multiple config files that are responsible for controlling only one action instead of one big and cluttered file.
+
+*disable-portals.json*::
 
     {
-        "categories": {
-            "all": {
-                "breakBlock": {
-                    "response": "deny",
-                    "filter": {
-                        "blockIds": ["cactus"]
-                    }
+        # Only match players in the overworld
+        "playerFilter": "{'location': {'world': {'dimension': {'name': 'overworld'}}}}",
+        "actionRules": {
+            "rightClickBlock": {
+                "filter": {
+                    "block": "{'state': {'type': 'minecraft:obsidian'}}",
+                    "item": "{'type': 'minecraft:flint_and_steel'}"
+                },
+                "response": {
+                    "noMatch": "deny"
                 }
-            },
-            "noFarmer": {
-                "rightClickBlock": {
-                    "response": "deny",
-                    "filter": {
-                        "blockIds": ["farmland"],
-                        "itemIds": ["wheat_seeds", "pumpkin_seeds", "melon_seeds"]
-                    }
-                },
-                "breakBlock": {
-                    "response": "deny",
-                    "filter": {
-                        "blockIds": ["wheat", "melon_block", "melon_stem", "pumpkin", "pumpkin_stem"]
-                    }
-                },
-            },
-            "noMiner": {
-                    "response": "deny",
-                    "filter": {
-                        "blockIds": "*",
-                        "toolIds": ["wooden_pickaxe", "diamond_pickaxe", "golden_pickaxe", "iron_pickaxe", "stone_pickaxe"]
-                    }
-            },
-            "noHunter": {
-                "useItem": {
-                    "response": "deny",
-                    "filter": {
-                        "itemIds": ["bow", "wooden_sword", "stone_sword", "iron_sword", "golden_sword", "diamond_sword"]
-                    }
-                },
-                "leftClickEntity": {
-                    "response": "deny",
-                    "filter": {
-                        "itemIds": ["bow", "wooden_sword", "stone_sword", "iron_sword", "golden_sword", "diamond_sword"],
-                        "entityIds": "*"
-                    }
-                },
-            },
-            "noWoodcutter": {
-                    "response": "deny",
-                    "filter": {
-                        "blockIds": "*",
-                        "toolIds": ["wooden_axe", "diamond_axe", "golden_axe", "iron_axe", "stone_axe"]
-                    }
             }
         }
     }
     
+*farmer.json*::
+
+    {
+        # Only match players with the specified permission.
+        # Note that you can use different permission names, these are just examples.
+        "playerFilter": "{'permissions': {'actioncontrol.group.farmer': true}}",
+        "actionRules": {
+            "rightClickBlock": {
+                "filter": {
+                    "block": "{'state': {'type': 'minecraft:farmland'}}",
+                    "item": "{'type': 'minecraft:wheat_seeds'}"
+                },
+                "response": {
+                    "noMatch": "deny"
+                }
+            },
+            "breakBlock": {
+                "filter": {
+                    "block": "{'state': {'type': 'minecraft:wheat'}}"
+                },
+                "response": {
+                    "noMatch": "deny"
+                }
+            }
+        }
+    }
+    
+*miner.json*::
+
+    {
+        "playerFilter": "{'permissions': {'actioncontrol.group.miner': true}}",
+        "actionRules": {
+            "leftClickBlock": {
+                "filter": {
+                    # We're using regular expressions here to make the matcher shorter. 
+                    "item": "{'type': r'minecraft:.+?_pickaxe'}"
+                    # If you don't know regular expressions, you can create the same effect using a different approach:
+                    # "item": "{'type': 'minecraft:wooden_pickaxe' | 'minecraft:stone_pickaxe' | 'minecraft:iron_pickaxe' | 'minecraft:golden_pickaxe' | 'minecraft:diamond_pickaxe'}"
+                },
+                "response": {
+                    "noMatch": "deny"
+                }
+            }
+        }
+    }
+    
+*hunter.json*::
+
+    {
+        "playerFilter": "{'permissions': {'actioncontrol.group.hunter': true}}",
+        "actionRules": {
+            "rightClickEntity": {
+                "filter": {
+                    # We're using regular expressions again.
+                    "item": "{'type': r'minecraft:.+?_sword'}"
+                },
+                "response": {
+                    "noMatch": "deny"
+                }
+            },
+            "useItem": {
+                "filter": {
+                    "item": "{'type': 'minecraft:bow'}"
+                },
+                "response": {
+                    "noMatch": "deny"
+                }
+            }
+        }
+    }
+    
+*woodcutter.json*::
+
+    {
+        "playerFilter": "{'permissions': {'actioncontrol.group.woodcutter': true}}",
+        "actionRules": {
+            "leftClickBlock": {
+                "filter": {
+                    # We're using regular expressions again.
+                    "item": "{'type': r'minecraft:.+?_axe'}"
+                },
+                "response": {
+                    "noMatch": "deny"
+                }
+            }
+        }
+    }
+
+.. note:: These examples files contain comments. Since comments are not supported in json, these config files won't work with the comments in them. But HOCON support is coming soon(tm)!
+    
 Now you just have to assign the permissions to each group.
-
-The ``actioncontrol.category.all`` permission must be assigned to the parent group of all groups to apply it to every group.
-
-The other categories have to be assigned to their respective groups as well.
-For example, the farmer group gets the ``actioncontrol.category.noMiner``, ``actioncontrol.category.noHunter`` and ``actioncontrol.category.noWoodcutter`` permission.
-
-There you have it, a fully working RPG system implemented by just using a single plugin.
+And here you have it, a fully working RPG system implemented by just using a single plugin.
+Of course this is a fairly basic RPG system but it can be extended in any way to fit your needs.
+And if you want to do something entirely different, you can do that too!

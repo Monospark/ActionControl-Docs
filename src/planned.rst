@@ -2,6 +2,12 @@
 Planned Features
 ================
 
+HOCON support
+=============
+
+The config files are currently JSON files.
+Since JSON is a very rigid format that doesn't allow comments, HOCON would be a better option.
+
 Control Over More Actions
 =========================
 
@@ -19,14 +25,6 @@ These planned features include controlling the following actions:
 * Dropping items from killed entities
 * Using the fishing rod
 
-Player Matchers
-===============
-
-Right now, it is not possible to use a player as a valid entity when filtering events.
-For example, it is possible to deny attacking any mob using a sword, but it is not possible to deny attacking players since they're not a valid Minecraft entity.
-Player matchers will solve this problem and even add some more possibilities. 
-It will be possible to select not only players, but specific players e.g. players with a specific permission.
-
 Config Validation
 =================
 
@@ -41,11 +39,3 @@ To modularize action controllers means that every action controller will be expo
 This allows server admins to completely customize ActionControl by only adding the action controllers that they really need.
 Furthermore, this allows ActionControl to work with any kind of mod, since action controllers can be created for a specific mod.
 A server admin can then easily install these custom action controllers.
-A good example for this would be a custom action controller for the Mining Laser from the IndustrialCraft mod.
-
-Customizable Messages
-=====================
-
-When a player can't perform an action because ActionControl denies it, there is currently no indication for the player why he isn't allowed to perform that action.
-It is planned to have a separate config file in which server admins can customize the chat messages that are beint sent to the player.
-Within this config file, it should also be possible to access some important attributes like the group of the player, to include them in the message.
