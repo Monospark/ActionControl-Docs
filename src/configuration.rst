@@ -7,6 +7,12 @@ Every file in the *config/actioncontrol* directory is interpreted as a config.
 Config names can be used to indicate the goal of the config, for example *disable-lighers.json*.
 If no config is present on startup, an example config will be generated.
 
+Reloading
+=========
+
+Players with the ``actioncontrol.reload`` permission are can execute the command ``/actioncontrol reload`` to reload all configuration files.
+This is used to adopt the changes made to configuration files while the server is running.
+
 SpongeMatchers
 ==============
 
