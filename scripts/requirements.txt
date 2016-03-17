@@ -1,1 +1,1 @@
-git+https://github.com/monospark/monospark_sphinx_theme.git#egg=monospark_sphinx_theme -U
+git+https://github.com/monospark/monospark_sphinx_theme.git#egg=monospark_sphinx_theme
