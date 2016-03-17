@@ -23,7 +23,7 @@ To get an overview over everything that is planned, you can visit the :doc:`plan
 Releases
 ========
 
-Releases and their changelog can be found at the `GitHub Releases page <https://github.com/Monospark/ActionControl/releases>`_.
+Releases and their changelog can be found at the `GitHub releases page <https://github.com/Monospark/ActionControl/releases>`_.
 The usage of these builds is recommended because they are stable and were tested using a major Sponge release.
 
 Development builds
@@ -44,11 +44,11 @@ Getting Support
 If something is not working correctly, which is very likely since this plugin is in an very early stage, you can always ask for help or report a bug at the following locations:
 
 * The topic of this plugin in the Sponge Forums
-* The ActionControl category in the Monospark Forums
-* The ActionControl issue tracker on `GitHub <https://github.com/Monospark/ActionControl/issues>`_
+* The `ActionControl category <https://forums.monospark.org/c/actioncontrol>`_ in the Monospark Forums
+* The `ActionControl issue tracker <https://github.com/Monospark/ActionControl/issues>`_ on GitHub
 
 Contributing
 ============
 
-To contribute to this plugin or this documentation, you can open pull requests on `GitHub <https://github.com/Monospark/ActionControl/pulls>`_.
+To contribute to this plugin or this documentation, you can `open a pull request <https://github.com/Monospark/ActionControl/pulls>`_.
 Since there is no real developer documentation yet, it is better to wait until there is one.
