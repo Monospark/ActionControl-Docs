@@ -198,25 +198,27 @@ The structure of a response element looks like this::
     "<rule name>": {
         "filter": ... ,
         "response": {
-            "match": ... ,
-            "noMatch": ...
+            "match": <response> ,
+            "noMatch": <response>
         }
     }
     
-The *match* element or *noMatch* element can be omitted if you don't want to respond to the action.
-There are currently three response types available:
+The *match* element or *noMatch* element can be omitted if you don't want to respond to the action in any way.
+There are currently four response types available:
 
 ``deny``
   Cancels the action.
   
 ``command(<cmd>)``
-  Executes the command *<cmd>* as the console. To refer to the player that caused the response to happen, use ``<player>`` in your command.
+  Executes the command *<cmd>* as the console. To refer to the player that performed the action, use ``<player>`` in your command.
   
 ``playerCommand(<cmd>)``
-  Executes the command *<cmd>* as the player that caused the response to happen.
+  Executes the command *<cmd>* as the player that performed the action.
   
 ``log(<message>)``
-  Prints *<message>* in the console.
+  Prints *<message>* in the console. To refer to the player that performed the action, use ``<player>`` in your message.
+  
+It is also possible to execute multiple action responses at once by declaring them in an array.
 
 Example configuration
 =====================
