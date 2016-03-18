@@ -210,7 +210,10 @@ There are currently three response types available:
   Cancels the action.
   
 ``command(<cmd>)``
-  Executes the command *<cmd>* as the console.
+  Executes the command *<cmd>* as the console. To refer to the player that caused the response to happen, use ``<player>`` in your command.
+  
+``playerCommand(<cmd>)``
+  Executes the command *<cmd>* as the player that caused the response to happen.
   
 ``log(<message>)``
   Prints *<message>* in the console.
