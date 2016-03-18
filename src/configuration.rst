@@ -220,44 +220,30 @@ There are currently four response types available:
   
 It is also possible to execute multiple action responses at once by declaring them in an array.
 
-Example configuration
-=====================
+Example configurations
+======================
 
-Here is an example that uses all of the previously covered features to realize a small RPG system in which a player can have one out of four possible jobs:
+Below are some real life examples that illustrate the capabilities of ActionControl and help you understand config creation even more.
+
+Small RPG system
+----------------
+
+This example covers the creation of a small RPG system in which a player can have one out of four possible jobs:
 
 * The farmer who can plant or harvest crops
 * The miner who can use a pickaxe
 * The hunter who can attack entities using a sword and a bow
 * The woodcutter who can use an axe
 
-Furthermore, nobody should be able to activate a nether portal in the overworld.
 Using ActionControl, it's possible to realize this jobs system pretty easily.
 It's always recommended to create multiple config files that are responsible for controlling only one action instead of one big and cluttered file.
-
-*disable-portals.json*::
-
-    {
-        # Only match players in the overworld
-        "playerFilter": "{'location': {'world': {'dimension': {'name': 'overworld'}}}}",
-        "actionRules": {
-            "rightClickBlock": {
-                "filter": {
-                    "block": "{'state': {'type': 'minecraft:obsidian'}}",
-                    "item": "{'type': 'minecraft:flint_and_steel'}"
-                },
-                "response": {
-                    "noMatch": "deny"
-                }
-            }
-        }
-    }
     
 *farmer.json*::
 
     {
-        # Only match players with the specified permission.
+        # Match players without the farmer permission.
         # Note that you can use different permission names, these are just examples.
-        "playerFilter": "{'permissions': {'actioncontrol.group.farmer': true}}",
+        "playerFilter": "{'permissions': !{'actioncontrol.group.farmer': true}}",
         "actionRules": {
             "rightClickBlock": {
                 "filter": {
@@ -265,7 +251,7 @@ It's always recommended to create multiple config files that are responsible for
                     "item": "{'type': 'minecraft:wheat_seeds'}"
                 },
                 "response": {
-                    "noMatch": "deny"
+                    "match": "deny"
                 }
             },
             "breakBlock": {
@@ -273,7 +259,7 @@ It's always recommended to create multiple config files that are responsible for
                     "block": "{'state': {'type': 'minecraft:wheat'}}"
                 },
                 "response": {
-                    "noMatch": "deny"
+                    "match": "deny"
                 }
             }
         }
@@ -282,7 +268,8 @@ It's always recommended to create multiple config files that are responsible for
 *miner.json*::
 
     {
-        "playerFilter": "{'permissions': {'actioncontrol.group.miner': true}}",
+        # Match players without the miner permission.
+        "playerFilter": "{'permissions': !{'actioncontrol.group.miner': true}}",
         "actionRules": {
             "leftClickBlock": {
                 "filter": {
@@ -292,7 +279,7 @@ It's always recommended to create multiple config files that are responsible for
                     # "item": "{'type': 'minecraft:wooden_pickaxe' | 'minecraft:stone_pickaxe' | 'minecraft:iron_pickaxe' | 'minecraft:golden_pickaxe' | 'minecraft:diamond_pickaxe'}"
                 },
                 "response": {
-                    "noMatch": "deny"
+                    "match": "deny"
                 }
             }
         }
@@ -301,7 +288,8 @@ It's always recommended to create multiple config files that are responsible for
 *hunter.json*::
 
     {
-        "playerFilter": "{'permissions': {'actioncontrol.group.hunter': true}}",
+        # Match players without the hunter permission.
+        "playerFilter": "{'permissions': !{'actioncontrol.group.hunter': true}}",
         "actionRules": {
             "rightClickEntity": {
                 "filter": {
@@ -309,7 +297,7 @@ It's always recommended to create multiple config files that are responsible for
                     "item": "{'type': r'minecraft:.+?_sword'}"
                 },
                 "response": {
-                    "noMatch": "deny"
+                    "match": "deny"
                 }
             },
             "useItem": {
@@ -317,7 +305,7 @@ It's always recommended to create multiple config files that are responsible for
                     "item": "{'type': 'minecraft:bow'}"
                 },
                 "response": {
-                    "noMatch": "deny"
+                    "match": "deny"
                 }
             }
         }
@@ -326,7 +314,8 @@ It's always recommended to create multiple config files that are responsible for
 *woodcutter.json*::
 
     {
-        "playerFilter": "{'permissions': {'actioncontrol.group.woodcutter': true}}",
+        # Match players without the woodcutter permission.
+        "playerFilter": "{'permissions': !{'actioncontrol.group.woodcutter': true}}",
         "actionRules": {
             "leftClickBlock": {
                 "filter": {
@@ -334,15 +323,88 @@ It's always recommended to create multiple config files that are responsible for
                     "item": "{'type': r'minecraft:.+?_axe'}"
                 },
                 "response": {
-                    "noMatch": "deny"
+                    "match": "deny"
+                }
+            }
+        }
+    }
+    
+Now you just have to assign the permissions to each group.
+And here you have it, a fully working RPG system implemented by just using a single plugin.
+Of course this is a fairly basic RPG system but it can be extended in any way to fit your needs.
+
+Global blacklist
+----------------
+
+This examples shows you how to disallow certain action for all players except admins.
+
+The first config denies players that don't have an admin permission to activate portals in the overworld.
+
+*disable-portals.json*::
+
+    {
+        "playerFilter": "{'permissions': !{'admin.permission': true}, 'location': {'world': {'dimension': {'name': 'overworld'}}}}",
+        "actionRules": {
+            "rightClickBlock": {
+                "filter": {
+                    "block": "{'state': {'type': 'minecraft:obsidian'}}",
+                    "item": "{'type': 'minecraft:flint_and_steel'}"
+                },
+                "response": {
+                    "match": "deny"
+                }
+            }
+        }
+    }
+    
+The next config denies players that don't have an admin permission to place certain blocks.
+    
+*banned-blocks.json*::
+
+    {
+        "playerFilter": "{'permissions': !{'admin.permission': true}}",
+        "actionRules": {
+            "placeBlock": {
+                "filter": {
+                    "block": "{'state': {'type': 'minecraft:beacon' | 'minecraft:tnt'}}"
+                },
+                "response": {
+                    "match": [
+                        "deny",
+                        "playerCommand(say Hey everyone, I didn't read the rules!)"
+                    ]
                 }
             }
         }
     }
 
-.. note:: These examples files contain comments. Since comments are not supported in json, these config files won't work with the comments in them. But HOCON support is coming soon(tm)!
+Command buttons
+---------------
+
+This examples shows you how to execute multiple commands after a player pressed a certain button.
+
+*command-buttons.json*::
+
+    {
+        "playerFilter": "*",
+        "actionRules": {
+            "rightClickBlock": {
+                "filter": {
+                    "block": "{'state': {'type': 'minecraft:stone_button'}, 'location': {'x': 1, 'y': 70, 'z': 23, 'world': {'name': 'world'}}}"
+                },
+                "response": {
+                    # We use the <player> placeholder that will be replaced with the players name on execution
+                    "match": [
+                        "command(give <player> diamond_pickaxe)",
+                        "playerCommand(say I just clicked the button!)"
+                    ]
+                }
+            }
+        }
+    }
+
+----
     
-Now you just have to assign the permissions to each group.
-And here you have it, a fully working RPG system implemented by just using a single plugin.
-Of course this is a fairly basic RPG system but it can be extended in any way to fit your needs.
-And if you want to do something entirely different, you can do that too!
+.. note:: These examples files contain comments. Since comments are not supported in json, these config files won't work with the comments in them. But HOCON support is coming soon(tm)!
+
+Remember that these are just basic examples and if you want to do something entirely different, you can do that too!
