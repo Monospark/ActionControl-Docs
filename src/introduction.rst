@@ -1,9 +1,9 @@
-=====
+===========
+Introduction
+===========
+
 About
 =====
-
-What is ActionControl?
-======================
 
 ActionControl is a plugin for Minecraft servers implementing the `Sponge API <https://www.spongepowered.org>`_.
 It allows you to react on almost every action performed by a player on your server.

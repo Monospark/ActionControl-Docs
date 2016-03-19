@@ -12,7 +12,7 @@ The first part of this documentation will introduce you to ActionControl and sho
 .. toctree::
    :maxdepth: 2
    
-   about
+   introduction
    
 The next part covers the configuration of ActionControl and shows you how to make the most out of ActionControl.
 
