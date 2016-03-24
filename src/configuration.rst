@@ -103,7 +103,7 @@ Block damaging
 
 ::
 
-    "leftClickBlock": {
+    "mineBlock": {
         "filter": [{
             "block": "<block matcher>",
             "item": "<item stack matcher>"
@@ -122,7 +122,7 @@ Block interaction
     
 ::
 
-    "rightClickBlock": {
+    "interactWithBlock": {
         "filter": [{
             "block": "<block matcher>",
             "item": "<item stack matcher>"
@@ -155,7 +155,7 @@ Entity damaging
     
 ::
 
-    "leftClickEntity": {
+    "damageEntity": {
         "filter": [{
             "entity": "<entity matcher>",
             "item": "<item stack matcher>"
@@ -174,7 +174,7 @@ Entity interaction
     
 ::
 
-    "rightClickEntity": {
+    "interactWithEntity": {
         "filter": [{
             "entity": "<entity matcher>",
             "item": "<item stack matcher>"
