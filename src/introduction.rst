@@ -9,11 +9,13 @@ ActionControl is a plugin for Minecraft servers implementing the `Sponge API <ht
 It allows you to react on almost every action performed by a player on your server.
 With ActionControl you can currently control the following actions:
 
-* Breaking blocks
+* Mining blocks
 * Placing blocks
 * Interacting with blocks
 * Interacting with entities
+* Attacking entities
 * Using items
+* Crafting items
 
 Currently, these are the only actions that are supported.
 But there are a lot more planned and will be also implemented when the Sponge API supports them.

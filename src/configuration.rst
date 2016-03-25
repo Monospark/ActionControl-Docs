@@ -150,6 +150,20 @@ Item usage
 
 Used: `item stack matchers <https://docs.monospark.org/spongematchers/types.html#item-stacks>`_.
     
+Item crafting
+^^^^^^^^^^^^^
+    
+::
+
+    "useItem": {
+        "filter": {
+            "result": "<item stack matcher>"
+        },
+        "response": ...
+    }
+
+Used: `item stack matchers <https://docs.monospark.org/spongematchers/types.html#item-stacks>`_.
+    
 Entity damaging
 ^^^^^^^^^^^^^^^
     
