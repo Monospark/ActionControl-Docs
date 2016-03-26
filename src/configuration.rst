@@ -3,8 +3,8 @@ Configuration
 =============
 
 As opposed to other plugins, ActionControl can have multiple config files.
-Every file in the *config/actioncontrol* directory is interpreted as a config.
-Config names can be used to indicate the goal of the config, for example *disable-lighers.json*.
+Every file in the *config/actioncontrol* directory is interpreted as a config file in the HOCON format.
+Config names can be used to indicate the goal of the config, for example *disable-lighers.hocon*.
 If no config is present on startup, an example config will be generated.
 
 Reloading
@@ -16,7 +16,7 @@ This is used to adopt the changes made to configuration files while the server i
 SpongeMatchers
 ==============
 
-The ActionControl configuration files make heavy use of `SpongeMatchers <https://github.com/monospark/spongematchers>`_.
+The ActionControl configuration files make heavy use of `SpongeMatchers <https://forums.spongepowered.org/t/spongematchers-parsable-predicates-for-all-sponge-objects-v1-1/11927>`_.
 SpongeMatchers is a library for Sponge plugins that allows you to create powerful matchers for all kinds of objects like blocks, item stacks, players and more.
 For more information about SpongeMatchers and matcher creation, visit the `SpongeMatchers documentation <https://docs.monospark.org/spongematchers/>`_.
 
@@ -25,27 +25,25 @@ Structure
 
 The general structure of the config can be seen here::
 
-    {
-        "playerFilter": "<player matcher>",
-        "actionRules": {
-            "<rule name>": {
-                "filter": {
-                    ...
-                },
-                "response": {
-                    ...
-                }
+    player-filter = "<player matcher>",
+    action-rules {
+        <rule name> {
+            filter {
+                ...
             },
-            "<rule name>": {
-                "filter": {
-                    ...
-                },
-                "response": {
-                    ...
-                }
+            response {
+                ...
+            }
+        },
+        <rule name> {
+            filter {
+                ...
             },
-            ...
-        }
+            response {
+                ...
+            }
+        },
+        ...
     }
   
 Player filters are used to specify which players are affected by the following action rules and accept a `player matcher <https://docs.monospark.org/spongematchers/types.html#players>`_.
@@ -70,16 +68,18 @@ Block destruction
 
 ::
 
-    "breakBlock": {
-        "filter": [{
-            "block": "<block matcher>",
-            "tool": "<item stack matcher>"
+    break-block {
+        filter [{
+            block = "<block matcher>",
+            tool = "<item stack matcher>"
         },
         {
-            "block": "<block matcher>",
-            "tool": "<item stack matcher>"
+            block = "<block matcher>",
+            tool = "<item stack matcher>"
         }],
-        "response": ...
+        response {
+            ...
+        }
     }
 
 Used: `block matchers <https://docs.monospark.org/spongematchers/types.html#blocks>`_, `item stack matchers <https://docs.monospark.org/spongematchers/types.html#item-stacks>`_.
@@ -89,49 +89,34 @@ Block placement
     
 ::
 
-    "placeBlock": {
-        "filter": {
-            "block": "<block matcher>",
+    place-block {
+        filter {
+            block = "<block matcher>",
         },
-        "response": ...
+        response {
+            ...
+        }
     }
     
 Used: `block matchers <https://docs.monospark.org/spongematchers/types.html#blocks>`_.
-
-Block damaging
-^^^^^^^^^^^^^^
-
-::
-
-    "mineBlock": {
-        "filter": [{
-            "block": "<block matcher>",
-            "item": "<item stack matcher>"
-        },
-        {
-            "block": "<block matcher>",
-            "item": "<item stack matcher>"
-        }],
-        "response": ...
-    }
-
-Used: `block matchers <https://docs.monospark.org/spongematchers/types.html#blocks>`_, `item stack matchers <https://docs.monospark.org/spongematchers/types.html#item-stacks>`_.
-    
+ 
 Block interaction
 ^^^^^^^^^^^^^^^^^
     
 ::
 
-    "interactWithBlock": {
-        "filter": [{
-            "block": "<block matcher>",
-            "item": "<item stack matcher>"
+    interact-with-block {
+        filter [{
+            block = "<block matcher>",
+            item = "<item stack matcher>"
         },
         {
-            "block": "<block matcher>",
-            "item": "<item stack matcher>"
+            block = "<block matcher>",
+            item = "<item stack matcher>"
         }],
-        "response": ...
+        response {
+            ...
+        }
     }
 
 Used: `block matchers <https://docs.monospark.org/spongematchers/types.html#blocks>`_, `item stack matchers <https://docs.monospark.org/spongematchers/types.html#item-stacks>`_.
@@ -141,11 +126,13 @@ Item usage
     
 ::
 
-    "useItem": {
-        "filter": {
-            "item": "<item stack matcher>"
+    use-item {
+        filter {
+            item = "<item stack matcher>"
         },
-        "response": ...
+        response {
+            ...
+        }
     }
 
 Used: `item stack matchers <https://docs.monospark.org/spongematchers/types.html#item-stacks>`_.
@@ -155,11 +142,13 @@ Item crafting
     
 ::
 
-    "useItem": {
-        "filter": {
-            "result": "<item stack matcher>"
+    craft {
+        filter {
+            result = "<item stack matcher>"
         },
-        "response": ...
+        response {
+            ...
+        }
     }
 
 Used: `item stack matchers <https://docs.monospark.org/spongematchers/types.html#item-stacks>`_.
@@ -169,16 +158,18 @@ Entity damaging
     
 ::
 
-    "damageEntity": {
-        "filter": [{
-            "entity": "<entity matcher>",
-            "item": "<item stack matcher>"
+    damage-entity {
+        filter [{
+            entity = "<entity matcher>",
+            item = "<item stack matcher>"
         },
         {
-            "entity": "<entity matcher>",
-            "item": "<item stack matcher>"
+            entity = "<entity matcher>",
+            item = "<item stack matcher>"
         }],
-        "response": ...
+        response {
+            ...
+        }
     }
     
 Used: `entity matchers <https://docs.monospark.org/spongematchers/types.html#entities>`_, `item stack matchers <https://docs.monospark.org/spongematchers/types.html#item-stacks>`_.
@@ -188,16 +179,18 @@ Entity interaction
     
 ::
 
-    "interactWithEntity": {
-        "filter": [{
-            "entity": "<entity matcher>",
-            "item": "<item stack matcher>"
+    interact-with-entity {
+        filter [{
+            entity = "<entity matcher>",
+            item = "<item stack matcher>"
         },
         {
-            "entity": "<entity matcher>",
-            "item": "<item stack matcher>"
+            entity = "<entity matcher>",
+            item = "<item stack matcher>"
         }],
-        "response": ...
+        response {
+            ...
+        }
     }
     
 Used: `entity matchers <https://docs.monospark.org/spongematchers/types.html#entities>`_, `item stack matchers <https://docs.monospark.org/spongematchers/types.html#item-stacks>`_.
@@ -209,11 +202,13 @@ With action responses you can control what happens after the action is applied t
 There are two elements, *match* and *noMatch*, which are executed when the action matches the filter or doesn't match the filter.
 The structure of a response element looks like this::
 
-    "<rule name>": {
-        "filter": ... ,
-        "response": {
-            "match": <response> ,
-            "noMatch": <response>
+    <rule name> {
+        filter {
+            ...
+        },
+        response {
+            match = "<response>",
+            noMatch = "<response>"
         }
     }
     
@@ -226,7 +221,7 @@ There are currently four response types available:
 ``command(<cmd>)``
   Executes the command *<cmd>* as the console. To refer to the player that performed the action, use ``<player>`` in your command.
   
-``playerCommand(<cmd>)``
+``player-command(<cmd>)``
   Executes the command *<cmd>* as the player that performed the action.
   
 ``log(<message>)``
@@ -254,91 +249,83 @@ It's always recommended to create multiple config files that are responsible for
     
 *farmer.json*::
 
-    {
-        # Match players without the farmer permission.
-        # Note that you can use different permission names, these are just examples.
-        "playerFilter": "{'permissions': !{'actioncontrol.group.farmer': true}}",
-        "actionRules": {
-            "rightClickBlock": {
-                "filter": {
-                    "block": "{'state': {'type': 'minecraft:farmland'}}",
-                    "item": "{'type': 'minecraft:wheat_seeds'}"
-                },
-                "response": {
-                    "match": "deny"
-                }
+    # Match players without the actioncontrol.group.farmer permission.
+    # Note that you can use different permission names, these are just examples.
+    player-filter = "{'permissions': !{'actioncontrol.group.farmer': true}}",
+    action-rules {
+        interact-with-block {
+            filter {
+                block = "{'state': {'type': 'minecraft:farmland'}}",
+                item = "{'type': 'minecraft:wheat_seeds'}"
             },
-            "breakBlock": {
-                "filter": {
-                    "block": "{'state': {'type': 'minecraft:wheat'}}"
-                },
-                "response": {
-                    "match": "deny"
-                }
+            response {
+                match = "deny"
+            }
+        },
+        break-block {
+            filter {
+                block = "{'state': {'type': 'minecraft:wheat'}}"
+            },
+            response {
+                match = "deny"
             }
         }
     }
     
 *miner.json*::
 
-    {
-        # Match players without the miner permission.
-        "playerFilter": "{'permissions': !{'actioncontrol.group.miner': true}}",
-        "actionRules": {
-            "leftClickBlock": {
-                "filter": {
-                    # We're using regular expressions here to make the matcher shorter. 
-                    "item": "{'type': r'minecraft:.+?_pickaxe'}"
-                    # If you don't know regular expressions, you can create the same effect using a different approach:
-                    # "item": "{'type': 'minecraft:wooden_pickaxe' | 'minecraft:stone_pickaxe' | 'minecraft:iron_pickaxe' | 'minecraft:golden_pickaxe' | 'minecraft:diamond_pickaxe'}"
-                },
-                "response": {
-                    "match": "deny"
-                }
+    # Match players without the actioncontrol.groupminer permission.
+    player-filter = "{'permissions': !{'actioncontrol.group.miner': true}}",
+    action-rules {
+        break-block {
+            filter {
+                # We're using regular expressions here to match any pickaxe. 
+                tool = "{'type': r'minecraft:.+?_pickaxe'}"
+                # If you don't know regular expressions, you can create the same effect using a different approach:
+                # tool = "{'type': 'minecraft:wooden_pickaxe' | 'minecraft:stone_pickaxe' | 'minecraft:iron_pickaxe' | 'minecraft:golden_pickaxe' | 'minecraft:diamond_pickaxe'}"
+            },
+            response {
+                match = "deny"
             }
         }
     }
     
 *hunter.json*::
 
-    {
-        # Match players without the hunter permission.
-        "playerFilter": "{'permissions': !{'actioncontrol.group.hunter': true}}",
-        "actionRules": {
-            "rightClickEntity": {
-                "filter": {
-                    # We're using regular expressions again.
-                    "item": "{'type': r'minecraft:.+?_sword'}"
-                },
-                "response": {
-                    "match": "deny"
-                }
+    # Match players without the actioncontrol.group.hunter permission.
+    player-filter = "{'permissions': !{'actioncontrol.group.hunter': true}}",
+    action-rules {
+        attack-entity {
+            filter: {
+                # We're using regular expressions again to match any sword.
+                item = "{'type': r'minecraft:.+?_sword'}"
             },
-            "useItem": {
-                "filter": {
-                    "item": "{'type': 'minecraft:bow'}"
-                },
-                "response": {
-                    "match": "deny"
-                }
+            response: {
+                match = "deny"
+            }
+        },
+        use-item {
+            filter {
+                item = "{'type': 'minecraft:bow'}"
+            },
+            response {
+                match = "deny"
             }
         }
     }
     
 *woodcutter.json*::
 
-    {
-        # Match players without the woodcutter permission.
-        "playerFilter": "{'permissions': !{'actioncontrol.group.woodcutter': true}}",
-        "actionRules": {
-            "leftClickBlock": {
-                "filter": {
-                    # We're using regular expressions again.
-                    "item": "{'type': r'minecraft:.+?_axe'}"
-                },
-                "response": {
-                    "match": "deny"
-                }
+    # Match players without the actioncontrol.group.woodcutter permission.
+    player-filter = "{'permissions': !{'actioncontrol.group.woodcutter': true}}",
+    action-rules {
+        break-block {
+            filter {
+                # We're using regular expressions again to match any axe.
+                tool = "{'type': r'minecraft:.+?_axe'}"
+            },
+            response {
+                match = "deny"
             }
         }
     }
@@ -356,17 +343,15 @@ The first config denies players that don't have an admin permission to activate 
 
 *disable-portals.json*::
 
-    {
-        "playerFilter": "{'permissions': !{'admin.permission': true}, 'location': {'world': {'dimension': {'name': 'overworld'}}}}",
-        "actionRules": {
-            "rightClickBlock": {
-                "filter": {
-                    "block": "{'state': {'type': 'minecraft:obsidian'}}",
-                    "item": "{'type': 'minecraft:flint_and_steel'}"
-                },
-                "response": {
-                    "match": "deny"
-                }
+    player-filter = "{'permissions': !{'admin.permission': true}, 'location': {'world': {'dimension': {'name': 'overworld'}}}}",
+    action-rules {
+        interact-with-block {
+            filter: {
+                block = "{'state': {'type': 'minecraft:obsidian'}}",
+                item = "{'type': 'minecraft:flint_and_steel'}"
+            },
+            response {
+                match = "deny"
             }
         }
     }
@@ -375,19 +360,17 @@ The next config denies players that don't have an admin permission to place cert
     
 *banned-blocks.json*::
 
-    {
-        "playerFilter": "{'permissions': !{'admin.permission': true}}",
-        "actionRules": {
-            "placeBlock": {
-                "filter": {
-                    "block": "{'state': {'type': 'minecraft:beacon' | 'minecraft:tnt'}}"
-                },
-                "response": {
-                    "match": [
-                        "deny",
-                        "playerCommand(say Hey everyone, I didn't read the rules!)"
-                    ]
-                }
+    player-filter = "{'permissions': !{'admin.permission': true}}",
+    action-rules {
+        place-block {
+            filter {
+                block = "{'state': {'type': 'minecraft:beacon' | 'minecraft:tnt'}}"
+            },
+            response {
+                match = [
+                    "deny",
+                    "player-command(say Hey everyone, I didn't read the rules!)"
+                ]
             }
         }
     }
@@ -399,26 +382,22 @@ This examples shows you how to execute multiple commands after a player pressed 
 
 *command-buttons.json*::
 
-    {
-        "playerFilter": "*",
-        "actionRules": {
-            "rightClickBlock": {
-                "filter": {
-                    "block": "{'state': {'type': 'minecraft:stone_button'}, 'location': {'x': 1, 'y': 70, 'z': 23, 'world': {'name': 'world'}}}"
-                },
-                "response": {
-                    # We use the <player> placeholder that will be replaced with the players name on execution
-                    "match": [
-                        "command(give <player> diamond_pickaxe)",
-                        "playerCommand(say I just clicked the button!)"
-                    ]
-                }
+    player-filter = "*",
+    action-rules {
+        interact-with-block {
+            filter {
+                block = "{'state': {'type': 'minecraft:stone_button'}, 'location': {'x': 1, 'y': 70, 'z': 23, 'world': {'name': 'world'}}}"
+            },
+            response {
+                # We use the <player> placeholder that will be replaced with the players name on execution
+                match = [
+                    "command(give <player> diamond_pickaxe)",
+                    "player-command(say I just clicked the button!)"
+                ]
             }
         }
     }
 
 ----
-    
-.. note:: These examples files contain comments. Since comments are not supported in json, these config files won't work with the comments in them. But HOCON support is coming soon(tm)!
 
 Remember that these are just basic examples and if you want to do something entirely different, you can do that too!

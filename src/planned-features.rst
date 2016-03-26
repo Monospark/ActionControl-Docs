@@ -2,12 +2,6 @@
 Planned Features
 ================
 
-HOCON support
-=============
-
-The config files are currently JSON files.
-Since JSON is a very rigid format that doesn't allow comments, HOCON would be a better option.
-
 Control Over More Actions
 =========================
 
@@ -15,7 +9,6 @@ It is planned to be able to control many more actions, but since the Sponge API 
 As soon as Sponge is ready, these features will get added.
 These planned features include controlling the following actions:
 
-* Crafting items
 * Smelting items
 * Brewing potions
 * Enchanting items
