@@ -242,7 +242,7 @@ This example covers the creation of a small RPG system in which a player can hav
 * The farmer who can plant or harvest crops
 * The miner who can use a pickaxe
 * The hunter who can attack entities using a sword and a bow
-* The woodcutter who can use an axe
+* The woodcutter who can craft planks and use an axe
 
 Using ActionControl, it's possible to realize this jobs system pretty easily.
 It's always recommended to create multiple config files that are responsible for controlling only one action instead of one big and cluttered file.
@@ -327,6 +327,11 @@ It's always recommended to create multiple config files that are responsible for
             response {
                 match = "deny"
             }
+        },
+        craft {
+            # We're denying all non-woodcutters to craft planks.
+            # Note that we need to specify the quantity of the crafting result.
+            result = "{'type': 'minecraft:planks', 'quantity': 4}"
         }
     }
     
