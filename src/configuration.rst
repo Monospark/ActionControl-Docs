@@ -391,7 +391,7 @@ This examples shows you how to execute multiple commands after a player pressed 
     action-rules {
         interact-with-block {
             filter {
-                block = "{'state': {'type': 'minecraft:stone_button'}, 'location': {'x': 1, 'y': 70, 'z': 23, 'world': {'name': 'world'}}}"
+                block = "{'state': {'type': {'id': 'minecraft:stone_button'}}, 'location': {'x': 1, 'y': 70, 'z': 23, 'world': {'name': 'world'}}}"
             },
             response {
                 # We use the <player> placeholder that will be replaced with the players name on execution
