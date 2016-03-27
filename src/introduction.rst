@@ -44,7 +44,7 @@ Getting Support
 
 If something is not working correctly, which is very likely since this plugin is in an very early stage, you can always ask for help or report a bug at the following locations:
 
-* The topic of this plugin in the Sponge Forums
+* The `ActionControl topic <https://forums.spongepowered.org/t/tools-actioncontrol-v1-0-1-control-crafting-mining-combat-and-more/10372>`_ in the Sponge Forums
 * The `ActionControl category <https://forums.monospark.org/c/actioncontrol>`_ in the Monospark Forums
 * The `ActionControl issue tracker <https://github.com/Monospark/ActionControl/issues>`_ on GitHub
 
