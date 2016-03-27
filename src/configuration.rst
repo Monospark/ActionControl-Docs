@@ -3,7 +3,7 @@ Configuration
 =============
 
 As opposed to other plugins, ActionControl can have multiple config files.
-Every file in the *config/actioncontrol* directory is interpreted as a config file in the HOCON format.
+Every file in the *config/org.monospark.actioncontrol* directory is interpreted as a config file in the HOCON format.
 Config names can be used to indicate the goal of the config, for example *disable-lighers.hocon*.
 If no config is present on startup, an example config will be generated.
 
@@ -25,7 +25,7 @@ Structure
 
 The general structure of the config can be seen here::
 
-    player-filter = "<player matcher>",
+    player-filter = "<player matcher>"
     action-rules {
         <rule name> {
             filter {
@@ -69,7 +69,7 @@ Block destruction
 ::
 
     break-block {
-        filter [{
+        filter = [{
             block = "<block matcher>",
             tool = "<item stack matcher>"
         },
@@ -106,7 +106,7 @@ Block interaction
 ::
 
     interact-with-block {
-        filter [{
+        filter = [{
             block = "<block matcher>",
             item = "<item stack matcher>"
         },
@@ -159,7 +159,7 @@ Entity damaging
 ::
 
     damage-entity {
-        filter [{
+        filter = [{
             entity = "<entity matcher>",
             item = "<item stack matcher>"
         },
@@ -180,7 +180,7 @@ Entity interaction
 ::
 
     interact-with-entity {
-        filter [{
+        filter = [{
             entity = "<entity matcher>",
             item = "<item stack matcher>"
         },
@@ -251,7 +251,7 @@ It's always recommended to create multiple config files that are responsible for
 
     # Match players without the actioncontrol.group.farmer permission.
     # Note that you can use different permission names, these are just examples.
-    player-filter = "{'permissions': !{'actioncontrol.group.farmer': true}}",
+    player-filter = "{'permissions': !{'actioncontrol.group.farmer': true}}"
     action-rules {
         interact-with-block {
             filter {
@@ -275,7 +275,7 @@ It's always recommended to create multiple config files that are responsible for
 *miner.json*::
 
     # Match players without the actioncontrol.groupminer permission.
-    player-filter = "{'permissions': !{'actioncontrol.group.miner': true}}",
+    player-filter = "{'permissions': !{'actioncontrol.group.miner': true}}"
     action-rules {
         break-block {
             filter {
@@ -293,7 +293,7 @@ It's always recommended to create multiple config files that are responsible for
 *hunter.json*::
 
     # Match players without the actioncontrol.group.hunter permission.
-    player-filter = "{'permissions': !{'actioncontrol.group.hunter': true}}",
+    player-filter = "{'permissions': !{'actioncontrol.group.hunter': true}}"
     action-rules {
         attack-entity {
             filter: {
@@ -317,7 +317,7 @@ It's always recommended to create multiple config files that are responsible for
 *woodcutter.json*::
 
     # Match players without the actioncontrol.group.woodcutter permission.
-    player-filter = "{'permissions': !{'actioncontrol.group.woodcutter': true}}",
+    player-filter = "{'permissions': !{'actioncontrol.group.woodcutter': true}}"
     action-rules {
         break-block {
             filter {
@@ -348,7 +348,7 @@ The first config denies players that don't have an admin permission to activate 
 
 *disable-portals.json*::
 
-    player-filter = "{'permissions': !{'admin.permission': true}, 'location': {'world': {'dimension': {'name': 'overworld'}}}}",
+    player-filter = "{'permissions': !{'admin.permission': true}, 'location': {'world': {'dimension': {'name': 'overworld'}}}}"
     action-rules {
         interact-with-block {
             filter: {
@@ -365,7 +365,7 @@ The next config denies players that don't have an admin permission to place cert
     
 *banned-blocks.json*::
 
-    player-filter = "{'permissions': !{'admin.permission': true}}",
+    player-filter = "{'permissions': !{'admin.permission': true}}"
     action-rules {
         place-block {
             filter {
@@ -387,7 +387,7 @@ This examples shows you how to execute multiple commands after a player pressed 
 
 *command-buttons.json*::
 
-    player-filter = "*",
+    player-filter = "*"
     action-rules {
         interact-with-block {
             filter {
